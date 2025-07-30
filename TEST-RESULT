@@ -1,0 +1,45 @@
+# TEST-RESULTS
+
+## Rezultati sistemskog (black-box) testiranja
+
+| Test | Izraz       | Očekivano         | Rezultat        | Status |
+|------|-------------|-------------------|------------------|--------|
+| 1    | 2+3         | 5.0               | 5.0              | ✅     |
+| 2    | 4+5*2       | 14.0              | 14.0             | ✅     |
+| 3    | 10/2+1      | 6.0               | 6.0              | ✅     |
+| 4    | 4/0         | ERROR             | Infinity         | ❌     |
+| 5    | -3+5        | 2.0               | 2.0              | ✅     |
+| 6    | +2+2        | 4.0               | 4.0              | ✅     |
+| 7    | 100*0       | 0.0               | 0.0              | ✅     |
+| 8    | 5++3        | ERROR             | ERROR            | ✅     |
+| 9    | abc+1       | ERROR             | ERROR            | ✅     |
+| 10   | 1.5+2.3     | 3.8               | 3.8              | ✅     |
+| 11   | 10--5       | 15.0              | 15.0             | ✅     |
+| 12   | 1/0+2       | ERROR             | Infinity         | ❌     |
+| 13   | 0/0         | ERROR             | NaN              | ⚠️     |
+
+**Zapažanja:**
+- Deljenje sa nulom ne baca "ERROR", već vraća `Infinity` ili `NaN`, što je netačno ponašanje sa aspekta korisnika.
+- Nije podržano računanje sa zagradama (npr. `(2+3)*4`).
+- Ne postoji obrada `null` i praznog stringa – baca `StringIndexOutOfBoundsException`.
+- Rezultat se uvek prikazuje kao decimalni (`.0`) – čak i za celobrojne izraze.
+- Nema podrške za negativne brojeve unutar izraza poput `4*-2`.
+
+---
+
+## ✅ Jedinični test
+
+**Lokacija:** `src/test/java/CalculatorTest.java`
+
+```java
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+public class CalculatorTest {
+
+    @Test
+    public void testAddition() {
+        assertEquals("7.0", Calculator.Run("3+4"));
+    }
+
+}
